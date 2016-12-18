@@ -55,4 +55,35 @@ The purpose of examining these nuances in detail was to pave the road to the met
 
 First off the `Shakespeare Quartos Archive` (\url{http://www.quartos.org/index.html}) list thirty-two quarto copies of \textit{Hamlet} with their digital scans and transcriptions. These XML files consist over ten-thousand lines of code, therefore I will not engage in a detailed description of them, rather highligth the general idea of representation and compare them to the HTML based editions introduced previously.
 
+For this purpose I choose the First Quarto edition (British Library Shelfmark: C.34.k.1) from 1603.\footnote{An HTML view can be found here: \url{http://www.quartos.org/lib/XMLDoc/viewXML.php?path=ham-1603-22275x-bli-c01.xml} and the XML file at this location: \url{http://www.quartos.org/XML_Orig/ham-1603-22275x-bli-c01_orig.xml}.} A TEI XML file consists of a header (tagged as [CODE teiHeader]) and the contents of its subject. The header gives detailed information about the file itself, the method of encoding, authors of the file and lists any revisions done on it. Furthermore outline bibliographical information about the text and the document as well. Some of these information are necessary for it to be used in a computer environment, and the rest can be usefull for cataloging and general purposes. After the header the two major parts are: the list of the scanned images associated with ID's and the main text of the play. The ID's of the images are intorduced in the text as it progresses in the source.
+%\footnote{Pagination is introduced in a [CODE pb] element, which contains attributes to note exact page and its ID. But curiousle enough}
+The five acts of the play are enclosed in seperate groups with [CODE type] attributes specifying them as `act` followed by [CODE n] attributes for their sequence. The acts are broken in scenes and described the same way---the [CODE type] attributes having the value: `scene`. The description of the first scene in the first act begins with page identification (`image0009` in this case) followed by a [CODE milestone] element, which stand for the decorative border on the begining of the text.\footnote{A very large sized iamge (223 MB!) of the text described can be downloaded here: \url{http://www.quartos.org/quarto_images/ham-1603-22275x-bli-c01/ham-1603-22275x-bli-c01-009.tif}.} This is a good example how source and text description can be registered at the same time.\footnote{Even the stamp of teh British Library towards teh bottom of the page is described in the file.} Coming up is the title of the play. It is enclosed in self-explanatory [CODE head] element, but the name `Hamlet` gets special attention. A [CODE name] element is allocated to it with two attributes: [CODE type] and [CODE ref], of which [CODE type] takes the value: `character`, and [CODE ref] the value of: `#ham`. The latter attribute allocates a specific ID to the character of Hamlet---this is done for every other character, whenever they appear---to the effect that any character can be queried anywhere in the text. The very same ID is used for the instances when the characters speak, but they are allocated to a different attribute and containing element. This makes it possible to distinguish between when the name of Hamlet is mentioned by some characters, or in a stage insturction for example, from when Hamlet is the speaker. Going on further in the XML code we find another instrumental building block of describing plays: the [CODE stage] element, that records the stage instructions. The [CODE type] attribute assinged to it attempts to descibe the nature of the instruction---fairly easy in this case, but perhaps not all instructions are so clear---which is an entrance.\footnote{The TEI guide for this element lists a few possible types of instuctions. Thes are the following: setting, entrance, exit, business, novelistic, delivery, modifier, location, mixed and enumerated data. (\url{http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-stage.html})} The final important element ot view in this kind of encoding is the actual speech of the characters.\footnote{Ignoring in this examination the handwritten remark to entrence of the sentinels, that gives their names, but which is alos in the markup.} The first line in this edition is the question of the first sentinel---marked only by number in the source---which goes as: `Stand: who is that?`. To this, the second sentinel---marked by the numebr two---answers: `Tis I.`. The inital letter `S` of the question extends to the second line. All this is encoded as follows:
+
+[CODE_BLOCK
+
+<sp who="#sen">
+	<speaker>1.</speaker>
+	<l>
+		<c rend="droppedCapital">S</c>
+		Tand: who is that?
+	</l>
+</sp>
+<sp who="#bar">
+	<speaker>2.</speaker>
+		<l>Tis I.</l>
+</sp>
+
+]
+
+(Line 607--625 in the code.)
+
+Every speech of a speaker in enclosed in a [CODE sp] element. This element contains a [CODE who] attribute, to which the three letter ID of the character speaking can be assigned. Within the [CODE sp] element is the [CODE speaker] element, the name of character in the source. The lines o the spoken words are contained in a [CODE l] element. Depending on complexity of the speech it can consist of multiple lines forming a line-group ([CODE lg]) or if they are a song elements from the `Poetry` module of the TEI vocabulary can be borrowed to describe it further. Note how typographical preoperty of the inital `S` letter is recorded.
+
+These were the main elements of representing a text of a play based on a specific source. It is apparent---I think---how overwhelmingly more information this one description provides compared to all the previous examples viewed. With this level of structuring analasys of teh texts can be performed at much better quality. The comparioson versions, with the highlighting of differences can viewed (\url{http://www.quartos.org/lib/Diff/compare.html}) thanks to this method.
+The whole project is very well documented (\url{http://www.quartos.org/info/documentation.html}), and is a very promising one.   
+
+
+
+
+
 \end{document}
